@@ -1,0 +1,12 @@
+format: jb-book
+root: intro
+parts:
+- caption: Describing variation
+  chapters:
+  - file: nucleotide_diversity
+- caption: f-statistics
+  chapters:
+  - file: fstatistics
+- caption: About
+  chapters:
+  - file: data
