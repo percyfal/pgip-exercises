@@ -25,59 +25,6 @@ def _get_metadata(tablerow):
     return md
 
 
-
-def partition_individuals(individuals: list):
-    """Partition individuals into reference individual and samples"""
-
-    def _filter_reference(ind):
-        return ind.metadata["is_reference"]
-
-    return list(filter(_filter_reference, individuals)), list(
-        itertools.filterfalse(_filter_reference, individuals)
-    )
-
-
-def write_variants(ref_ind, individuals, vcf_tmp_fn, outdir, prefix):
-    """Write variants to output vcf.
-
-    If reference vcf is provided flip alleles where necessary
-    """
-    vcf_ref = None
-    if len(ref_ind) > 0:
-        vcf_ref = cyvcf2.VCF(vcf_tmp_fn, samples=ref_ind[0].metadata["tskit_id"])
-
-    vcf_out = outdir / f"{prefix}.vcf.gz"
-    print(f"Writing output vcf {vcf_out}")
-    samples = [ind.metadata["tskit_id"] for ind in individuals]
-    vcf_tmp = cyvcf2.VCF(vcf_tmp_fn, samples=samples)
-    vcfwriter = cyvcf2.cyvcf2.Writer(str(vcf_out), vcf_tmp, "wz")
-    for ind in individuals:
-        vcfwriter.add_to_header(ind.metadata["vcfheader"])
-    if vcf_ref is None:
-        vcfwriter.set_samples(vcf_tmp.samples)
-        for variant in vcf_tmp:
-            vcfwriter.write_record(variant)
-    else:
-        # in cyvcf2: Pick one individual *haplotype* as reference: this
-        # individual should have only 0's, so all calls at a site with a
-        # derived allele should be flipped for all individuals.
-        for gt, variant in zip(vcf_ref, vcf_tmp):
-            ref = gt.genotypes[0][0]
-            if ref == 1:
-                # Flip states for all other genotypes
-                for i in range(len(variant.genotypes)):
-                    alleles = variant.genotypes[i]
-                    variant.genotypes[i] = [1 - alleles[0], 1 - alleles[1], alleles[2]]
-                variant.genotypes = variant.genotypes
-                variant.REF = gt.ALT[0]
-                variant.ALT = [gt.REF]
-            vcfwriter.write_record(variant)
-    vcfwriter.close()
-    subprocess.run(["tabix", vcf_out], check=True)
-
-
-
-
 @dataclass
 class SeqRecord:
     haplotype: int = -1
@@ -117,25 +64,6 @@ class SeqRecord:
 
 
 
-
-# The node is what makes this unique
-def make_sequence_from_tree_sequence(ts, individual, node, haplotype, reference):
-    """Create DNA sequence with variants at sites"""
-    seqid = f"tsk_{individual.metadata['population'].metadata['name']}-{individual.id}-{haplotype}"
-    for site, variant in zip(ts.sites(), list(ts.haplotypes())[node]):
-        i = int(site.position) - 1
-        reference[i] = variant
-    record = SeqRecord(
-        seq="".join(reference),
-        name=individual.metadata["name"],
-        id=seqid,
-    )
-    record.population = individual.metadata['population'].metadata['name']
-    record.haplotype = haplotype
-
-    return record
-
-
 def make_reads(outdir, **kw):
     kwargs = []
     for k, v in kw.items():
@@ -154,7 +82,6 @@ def make_reads(outdir, **kw):
         "--output",
         str(outdir / "reads"),
     ] + kwargs
-    print(args)
     subprocess.run(args, check=True)
 
 
@@ -200,7 +127,6 @@ def make_ooa_old(args):
             fh.write(repr(rec))
     for ind in individuals:
         indseq = []
-        print(ind.metadata)
         seq_out = outdir / f"{ind.id}.fasta"
         nodes = ind.nodes
         for node in nodes:
@@ -221,8 +147,7 @@ class Individual:
     population: int
     population_name: str = None
     metadata: dict = None
-    paternal_chromosome: SeqRecord = None
-    maternal_chromosome: SeqRecord = None
+    haplotype: list[SeqRecord] = field(default_factory=list)
     is_reference: bool = False
 
     def __str__(self):
@@ -231,16 +156,7 @@ class Individual:
     def __repr__(self):
         return (f"Individual(uniqueid={self.uniqueid}, id={self.id}, "
                 f"population={self.population}, population_name={self.population_name}, "
-                f"metadata={self.metadata})"
-                )
-
-    def haplotype(self, which=0):
-        if which == 0:
-            return self.maternal_chromosome
-        elif which == 1:
-            return self.paternal_chromosome
-        else:
-            print("no such haplotype {which}")
+                f"metadata={self.metadata})")
 
     @property
     def tskit_id(self):
@@ -248,6 +164,52 @@ class Individual:
 
     def simulate_reads(self, coverage):
         pass
+
+    @property
+    def reference(self):
+        try:
+            return self.haplotype[0]
+        except Excetption as e:
+            print(e)
+            pass
+
+    def make_sequence(self, ts, reference=None):
+        """Create DNA sequence with variants at sites"""
+        if reference is None:
+            return
+        for haplotype, node in enumerate(ts.individual(self.uniqueid).nodes):
+            if self.is_reference and haplotype == 0:
+                next
+            seqid = f"{self.tskit_id}-{self.population_name}-{self.id}-{haplotype}"
+            for site, variant in zip(ts.sites(), list(ts.haplotypes())[node]):
+                i = int(site.position) - 1
+                reference[i] = variant
+            record = SeqRecord(
+                seq="".join(reference),
+                name=seqid,
+                id=seqid,
+            )
+            record.population = self.population_name
+            record.haplotype = haplotype
+            self.haplotype.append(record)
+
+    def write_haplotypes(self, path):
+        with open(path, "w") as fh:
+            for hap in self.haplotype:
+                fh.write(str(hap))
+
+    def simulate_reads(self, path, *, coverage=10, readlength=125, **kw):
+        nreads = int((len(self.haplotype[0]) * coverage) / (readlength * 2))
+        tmp = tempfile.mkstemp(suffix=".fasta")[1]
+        self.write_haplotypes(tmp)
+        args = ["iss", "generate", "--output", path / f"{str(self)}",
+                "--genomes", tmp, "-z", "--model", "HiSeq", "-n", str(nreads)]
+        for k, v in kw.items():
+            args += [f"--{k}"]
+            args += [v]
+        subprocess.run(args, check=True)
+        os.unlink(tmp)
+
 
 
 @dataclass
@@ -261,11 +223,6 @@ class Population:
     def size(self):
         return len(self.individuals)
 
-    def get_individual(self, index: int):
-        return self.individuals[index]
-
-    def set_reference(self, index: int):
-        self.individuals[index].is_reference = True
 
 
 @dataclass
@@ -313,7 +270,16 @@ class DemesModel:
     def set_reference(self, individual: int, population: str):
         for pop in self.populations:
             if pop.name == population:
-                pop.set_reference(individual)
+                pop.individuals[individual].is_reference = True
+
+    def make_reference_sequence(self):
+        if self.ts is None:
+            return
+        dna = ["A", "C", "G", "T"]
+        if len(self.reference.haplotype) == 0:
+            self.reference.haplotype.append(choices(dna, k=int(self.ts.sequence_length)))
+        else:
+            self.reference.haplotype[0] = choices(dna, k=int(self.ts.sequence_length))
 
     def get_population(self, name):
         for pop in self.populations:
@@ -324,18 +290,13 @@ class DemesModel:
     def popdict(self):
         return dict((p.name, p.size) for p in self.populations)
 
-    def make_tree_sequence(self):
-        pass
-
-    def update_ts_metadata(self):
-        pass
-
     # FIXME: should be agnostic to msprime / SLiM
     def simulate(self, *, seqlength, recombination_rate,
                  mutation_rate, anc_seed=42, mut_seed=10):
         tsfile = self._ts_ancestry(seqlength, recombination_rate, anc_seed)
         tsfile = self._ts_mutate(tsfile, mutation_rate, mut_seed)
         self.ts = tskit.load(tsfile)
+        os.unlink(tsfile)
 
     def _ts_ancestry(self, seqlength, recombination_rate, seed):
         populations = [f"{k}:{v}" for k, v in self.popdict.items()]
@@ -361,7 +322,6 @@ class DemesModel:
         subprocess.run(args, check=True)
         os.unlink(tsfile)
         return tsmutfile
-
 
     # FIXME: should sync back to Individual?
     def sync_metadata(self):
@@ -442,6 +402,17 @@ class DemesModel:
         vcfwriter.close()
         subprocess.run(["tabix", vcf_out], check=True)
 
+    # FIXME: dump more than ts?
+    def dump(self, **kw):
+        path = self.path / f"{self.name}.ts"
+        print("Dumping tree sequences to", str(path))
+        self.ts.dump(path, **kw)
+
+    def write_haplotypes(self):
+        for ind in self.individuals:
+            path = self.path / f"{str(ind)}"
+            ind.write_haplotypes(path)
+
 
 def make_ooa(args):
     model = DemesModel(name="ooa", path=pathlib.Path("ooa"), demesfile="ooa/ooa_with_outgroup.demes.yaml")
@@ -452,6 +423,15 @@ def make_ooa(args):
     model.simulate(seqlength=1e5, recombination_rate=1e-8, mutation_rate=1e-9)
     model.sync_metadata()
     model.write_variants()
+    model.make_reference_sequence()
+
+    for ind in model.individuals:
+        ind.make_sequence(model.ts, model.reference.haplotype[0])
+        if ind.is_reference:
+            next
+        ind.simulate_reads(pathlib.Path("foo"), cpus=args.cpus)
+
+    model.dump()
 
 
 def main():
