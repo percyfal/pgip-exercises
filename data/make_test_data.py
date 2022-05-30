@@ -4,6 +4,7 @@ import itertools
 import multiprocessing
 import os
 import pathlib
+import copy
 import re
 import json
 import subprocess
@@ -24,17 +25,38 @@ def _get_metadata(tablerow):
         md = {}
     return md
 
+def _kw_options(kw):
+    args = []
+    for k, v in kw.items():
+        if len(k) == 1:
+            args += [f"-{k}"]
+        else:
+            args += [f"--{k}"]
+        args += [str(v)]
+    return args
+
+
+def samtools_faidx(fasta):
+    subprocess.run(["samtools", "faidx", fasta, "-o", f"{str(fasta)}.fai"], check=True)
+
+def bwa_index(fasta):
+    subprocess.run(["bwa", "index", fasta], check=True)
+
+def gatk_create_sequence_dictionary(fasta):
+    d = str(fasta).replace(".fasta", ".dict")
+    if os.path.exists(d):
+        os.unlink(d)
+    subprocess.run(["gatk", "CreateSequenceDictionary", "-R", fasta], check=True)
+
 
 @dataclass
 class SeqRecord:
+    id: str
+    name: str
+    seq: str
     haplotype: int = -1
     node: int = -1
     population: str = None
-
-    def __init__(self, *, seq, name, id):
-        self.seq = seq
-        self.name = name
-        self.id = id
 
     @property
     def seqid(self):
@@ -47,6 +69,9 @@ class SeqRecord:
             f"haplotype:{self.haplotype}, "
             f"population:{self.population}"
         )
+
+    def as_array(self):
+        return list(self.seq)
 
     def __len__(self):
         return len(self.seq)
@@ -63,83 +88,6 @@ class SeqRecord:
         return str(self)
 
 
-
-def make_reads(outdir, **kw):
-    kwargs = []
-    for k, v in kw.items():
-        kwargs.append(f"--{k}")
-        if isinstance(v, list):
-            for item in v:
-                kwargs.append(str(item))
-        else:
-            kwargs.append(str(v))
-    args = [
-        "iss",
-        "generate",
-        "-z",
-        "--model",
-        "HiSeq",
-        "--output",
-        str(outdir / "reads"),
-    ] + kwargs
-    subprocess.run(args, check=True)
-
-
-def make_ooa_old(args):
-    TARGET = "ooa/ooa.reference.fasta"
-    if os.path.exists(TARGET):
-        if not args.force:
-            print(f"Target {TARGET} exists; skipping. Force remake with --force flag")
-            return
-    outdir = pathlib.Path("ooa")
-    prefix = "ooa"
-    SEQLENGTH = 1e5
-    RECOMBINATION_RATE = 1e-8
-    MUTATION_RATE = 1e-9
-    RANDOM_SEED = 10
-    REFERENCE_CHROMOSOME = "CHB:0"
-
-    ts = tskit.load(outdir / "ooa.mut.ts")
-    individuals = update_individual_metadata(ts)
-    individuals = set_reference_individual(REFERENCE_CHROMOSOME, individuals)
-    ref_ind, individuals = partition_individuals(individuals)
-
-    vcf_tmp_fn = tempfile.mkstemp(suffix=".vcf")[1]
-    print(f"Writing temporary ts vcf {vcf_tmp_fn}")
-    with open(vcf_tmp_fn, "w") as fh:
-        ts.write_vcf(fh)
-
-    write_variants(ref_ind, individuals, vcf_tmp_fn, outdir, "ooa_1_PASS")
-
-    print("Writing fasta sequences")
-    # Make fasta sequences
-    reference = None
-    dna = ["A", "C", "G", "T"]
-    reference = choices(dna, k=int(ts.sequence_length))
-    # Reference individual; only print first node
-    if len(ref_ind) > 0:
-        ind = ref_ind[0]
-        node = ind.nodes[0]
-        haplotype = node % len(ind.nodes)
-        rec = make_sequence(ts, ind, node, haplotype, reference)
-        ref_out = outdir / f"{prefix}.reference.fasta"
-        with open(ref_out, "w") as fh:
-            fh.write(repr(rec))
-    for ind in individuals:
-        indseq = []
-        seq_out = outdir / f"{ind.id}.fasta"
-        nodes = ind.nodes
-        for node in nodes:
-            haplotype = node % len(nodes)
-            rec = make_sequence(ts, ind, node, haplotype, reference)
-            seq_out = outdir / f"{rec.id}.fasta"
-            indseq.append(seq_out)
-            with open(seq_out, "w") as fh:
-                fh.write(repr(rec))
-        make_reads(outdir, genomes=indseq, cpus=args.cpus, n_reads=100)
-        for seq in indseq:
-            os.unlink(seq)
-
 @dataclass
 class Individual:
     uniqueid: int
@@ -147,8 +95,11 @@ class Individual:
     population: int
     population_name: str = None
     metadata: dict = None
-    haplotype: list[SeqRecord] = field(default_factory=list)
+    haplotype: list[SeqRecord] = field(default_factory = list)
     is_reference: bool = False
+    readfiles: tuple = ()
+    bamfile: str = None
+    gvcf: str = None
 
     def __str__(self):
         return f"{self.population_name}-{self.id}"
@@ -162,9 +113,6 @@ class Individual:
     def tskit_id(self):
         return f"tsk_{self.uniqueid}"
 
-    def simulate_reads(self, coverage):
-        pass
-
     @property
     def reference(self):
         try:
@@ -173,24 +121,23 @@ class Individual:
             print(e)
             pass
 
-    def make_sequence(self, ts, reference=None):
-        """Create DNA sequence with variants at sites"""
-        if reference is None:
+    def make_sequence(self, vcf, reference):
+        if self.is_reference:
             return
-        for haplotype, node in enumerate(ts.individual(self.uniqueid).nodes):
-            if self.is_reference and haplotype == 0:
-                next
-            seqid = f"{self.tskit_id}-{self.population_name}-{self.id}-{haplotype}"
-            for site, variant in zip(ts.sites(), list(ts.haplotypes())[node]):
-                i = int(site.position) - 1
-                reference[i] = variant
+        fh = cyvcf2.VCF(vcf, samples=self.tskit_id)
+        for i, haplotype in enumerate(reference.haplotype):
+            seqid = f"{self.tskit_id}-{self.population_name}-{self.id}-{i}"
+            sequence = copy.deepcopy(haplotype.as_array())
+            for gt in fh:
+                if gt.genotypes[0][i] == 1:
+                    sequence[gt.POS - 1] = gt.ALT[0]
             record = SeqRecord(
-                seq="".join(reference),
-                name=seqid,
                 id=seqid,
+                name=seqid,
+                seq="".join(sequence),
+                haplotype=i,
+                population=self.population_name
             )
-            record.population = self.population_name
-            record.haplotype = haplotype
             self.haplotype.append(record)
 
     def write_haplotypes(self, path):
@@ -198,18 +145,36 @@ class Individual:
             for hap in self.haplotype:
                 fh.write(str(hap))
 
-    def simulate_reads(self, path, *, coverage=10, readlength=125, **kw):
+    def simulate_reads(self, path, *, output, coverage=10.0, readlength=125, **kw):
         nreads = int((len(self.haplotype[0]) * coverage) / (readlength * 2))
         tmp = tempfile.mkstemp(suffix=".fasta")[1]
         self.write_haplotypes(tmp)
-        args = ["iss", "generate", "--output", path / f"{str(self)}",
+        args = ["iss", "generate", "--output", output,  "--coverage", "uniform",
                 "--genomes", tmp, "-z", "--model", "HiSeq", "-n", str(nreads)]
-        for k, v in kw.items():
-            args += [f"--{k}"]
-            args += [v]
+        args += _kw_options(kw)
         subprocess.run(args, check=True)
         os.unlink(tmp)
+        os.unlink(f"{output}_coverage.txt")
+        self.readfiles = (f"{output}_R1.fastq.gz", f"{output}_R2.fastq.gz")
 
+    def align_reads(self, idxbase, **kw):
+        self.bamfile = self.readfiles[0].replace("_R1.fastq.gz", ".bam")
+        args = ["bwa", "mem", "-R", f"\'@RG\\tID:{self.tskit_id}\\tSM:{str(self)}\'"]
+        args += _kw_options(kw) + [idxbase,  self.readfiles[0], self.readfiles[1]]
+        args += ["|", "samtools", "fixmate", "-m", "-", "/dev/stdout"]
+        args += ["|", "samtools", "sort", "-"]
+        args += ["|", "samtools", "markdup", "-", "/dev/stdout"]
+        args += ["|", "samtools", "view", "-h", "-b", "-o", self.bamfile]
+        subprocess.run(" ".join(args), check=True, shell=True)
+        subprocess.run(["samtools", "index", self.bamfile], check=True)
+        for readfile in self.readfiles:
+           os.unlink(readfile)
+        self.readfiles = ()
+
+    def haplotype_caller(self, idxbase, **kw):
+        self.gvcf = self.bamfile.replace(".bam", ".g.vcf")
+        args = ["gatk", "HaplotypeCaller", "-I", self.bamfile, "-ERC", "GVCF", "-O", self.gvcf, "-R", idxbase] + _kw_options(kw)
+        subprocess.run(args, check=True)
 
 
 @dataclass
@@ -233,6 +198,7 @@ class DemesModel:
     ts: tskit.trees.TreeSequence = None
     populations: list[Population] = field(default_factory=list)
     individuals: list[Individual] = field(default_factory=list)
+    vcf_ref: str = None
 
     def __post_init__(self):
         self._census = 0
@@ -267,19 +233,46 @@ class DemesModel:
             if ind.is_reference:
                 return ind
 
+    @property
+    def index(self):
+        """Reference index base name"""
+        return self.path / f"{str(self.reference)}.fasta"
+
     def set_reference(self, individual: int, population: str):
         for pop in self.populations:
             if pop.name == population:
                 pop.individuals[individual].is_reference = True
 
     def make_reference_sequence(self):
+        """Create the reference sequence for the reference individual.
+        Assume biallelic snps (no back mutations).
+
+        Haplotype 0 is the reference; haplotype 1 the reference with variants.
+        """
         if self.ts is None:
             return
+        if self.vcf_ref is None:
+            return
         dna = ["A", "C", "G", "T"]
-        if len(self.reference.haplotype) == 0:
-            self.reference.haplotype.append(choices(dna, k=int(self.ts.sequence_length)))
-        else:
-            self.reference.haplotype[0] = choices(dna, k=int(self.ts.sequence_length))
+        hap0 = choices(dna, k=int(self.ts.sequence_length))
+        hap1 = copy.deepcopy(hap0)
+        # We must make sure the reference holds the actual reference
+        # allele at the variant positions as obtained from the tree
+        # sequence
+        for gt in cyvcf2.VCF(self.vcf_ref):
+            ref = gt.genotypes[0][0]
+            hap0[gt.POS - 1] = gt.REF
+            hap1[gt.POS - 1] = gt.ALT[0]
+        h0 = f"{self.reference.tskit_id}-{self.reference.population_name}-{self.reference.id}-0"
+        h1 = f"{self.reference.tskit_id}-{self.reference.population_name}-{self.reference.id}-1"
+        self.reference.haplotype = [SeqRecord(id=h0, name=h0, seq="".join(hap0), haplotype=0, population=self.reference.population_name),
+                                    SeqRecord(id=h1, name=h1, seq="".join(hap1), haplotype=1, population=self.reference.population_name)]
+
+
+    def save_reference(self):
+        with open(self.index, "w") as fh:
+            fh.write(str(self.reference.haplotype[0]))
+
 
     def get_population(self, name):
         for pop in self.populations:
@@ -361,7 +354,10 @@ class DemesModel:
     def write_variants(self):
         """Write variants to output vcf.
 
-        If reference vcf is provided flip alleles where necessary
+        If reference vcf is provided flip alleles where necessary.
+        WARNING: this means tree sequence states and vcf states
+        will differ!
+
         """
         vcf_tmp_fn = tempfile.mkstemp(suffix=".vcf")[1]
         print(f"Writing ts to vcf {vcf_tmp_fn}")
@@ -400,7 +396,8 @@ class DemesModel:
                     variant.ALT = [gt.REF]
                 vcfwriter.write_record(variant)
         vcfwriter.close()
-        subprocess.run(["tabix", vcf_out], check=True)
+        subprocess.run(["tabix", "-f", vcf_out], check=True)
+        self.vcf_ref = vcf_out
 
     # FIXME: dump more than ts?
     def dump(self, **kw):
@@ -413,25 +410,59 @@ class DemesModel:
             path = self.path / f"{str(ind)}"
             ind.write_haplotypes(path)
 
+    def gatk_variant_calling(self, cpus=1, **kw):
+        for ind in self.individuals:
+            if ind.is_reference:
+                continue
+            ind.haplotype_caller(str(self.index), **{'native-pair-hmm-threads': cpus})
+        gvcf = str(self.path / f"{self.name}.gatk.g.vcf.gz")
+        args = ["gatk", "CombineGVCFs", "-O", gvcf, "-R", self.index]
+        gvcflist = []
+        for ind in self.individuals:
+            if not ind.is_reference:
+                gvcflist += ["-V", ind.gvcf]
+        subprocess.run(args + gvcflist, check=True)
+        for ind in self.individuals:
+            if ind.is_reference:
+                continue
+            os.unlink(ind.gvcf)
+            idx = f"{ind.gvcf}.idx"
+            if os.path.exists(idx):
+                os.unlink(idx)
+        vcf = str(self.path / f"{self.name}.gatk.vcf.gz")
+        args = ["gatk", "GenotypeGVCFs", "-R", self.index, "-V", gvcf, "-O", vcf]
+        subprocess.run(args, check=True)
+        subprocess.run(["tabix", "-f", vcf], check=True)
+
 
 def make_ooa(args):
+    np.random.seed(52)
     model = DemesModel(name="ooa", path=pathlib.Path("ooa"), demesfile="ooa/ooa_with_outgroup.demes.yaml")
-    popdict = {'CHB': 6, 'CEU': 7, 'YRI': 6, 'gorilla': 1,
+    popdict = {'CHB': 3, 'CEU': 4, 'YRI': 3, 'gorilla': 1,
                'chimpanzee': 1, 'orangutan': 1}
     model.add_individuals(**popdict)
-    model.set_reference(population="CEU", individual=6)
-    model.simulate(seqlength=1e5, recombination_rate=1e-8, mutation_rate=1e-9)
+    model.set_reference(population="CEU", individual=3)
+    model.simulate(seqlength=5e4, recombination_rate=1e-7, mutation_rate=5e-9)
+    model.dump()
     model.sync_metadata()
     model.write_variants()
     model.make_reference_sequence()
+    model.save_reference()
+    bwa_index(model.index)
+    samtools_faidx(model.index)
+    gatk_create_sequence_dictionary(model.index)
 
     for ind in model.individuals:
-        ind.make_sequence(model.ts, model.reference.haplotype[0])
         if ind.is_reference:
-            next
-        ind.simulate_reads(pathlib.Path("foo"), cpus=args.cpus)
+            continue
+        ind.make_sequence(model.vcf_ref, model.reference)
+        output = model.path / f"{str(ind)}-0"
+        coverage = np.clip(np.random.normal(10, 2), 5.0, 15.0)
+        ind.simulate_reads(model.path, cpus=args.cpus, output=output, coverage=coverage)
+        ind.align_reads(str(model.index), t=args.cpus)
 
-    model.dump()
+    model.gatk_variant_calling(cpus=args.cpus)
+
 
 
 def main():
