@@ -37,6 +37,11 @@ jobs:
         sudo R -e 'install.packages("IRkernel")'
         R -e 'IRkernel::installspec()'
 
+    - name: Add pgip jupyter kernel
+      run: |
+        pip install ipykernel
+        python -m ipykernel install --user --name pgip --display-name "Population Genomics in Practice (Python)"
+
     # Build the book
     - name: Build the book
       run: ./build.sh
