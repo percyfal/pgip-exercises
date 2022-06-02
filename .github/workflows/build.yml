@@ -19,15 +19,25 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install dependencies
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v1
+    - name: cache-conda
+      uses: actions/cache@v2
+      env:
+        CACHE_NUMBER: 0
       with:
-        python-version: 3.9
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yaml') }}
+
+    # Install dependencies
+    # - name: Set up Python 3.9
+    #   uses: actions/setup-python@v1
+    #   with:
+    #     python-version: 3.9
 
     - name: install miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
+        activate-environment: ""
+        auto-activate-base: true
         mamba-version: "*"
         channels: conda-forge,bioconda,default
         channel-priority: true

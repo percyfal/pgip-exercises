@@ -1,7 +1,9 @@
 channels:
   - conda-forge
   - bioconda
-  - default
+  - defaults
 dependencies:
   - bcftools
-  - gatk
+  - gatk4
+  - pip
+  - python>=3.9
