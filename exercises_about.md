@@ -11,26 +11,19 @@ kernelspec:
   name: pgip
 ---
 
-(sec_intro)=
-
-# Population Genomics in Practice exercises
-
-Welcome to the Population Genomics in Practice exercises homepage!
-
 (sec_exercises_about)=
 
-## About the exercises
+# About the exercises
 
 As the focus of the course is on hands-on work, the topics have been
 designed to cover the fundamental analyses that are common in many
-population genomics studies. 
+population genomics studies. In principle, you could imagine the
+course structure to follow that of a manuscript (e.g
+{cite}`fuller_PopulationGeneticsCoral_2020`).
 
 (sec_exercises_about_manuscript_route)=
 
-### The manuscript route
-
-In principle, you could imagine the course structure to follow that of
-a manuscript (e.g {cite}`fuller_PopulationGeneticsCoral_2020`).
+## The manuscript route
 
 High-throughput DNA sequencing has now made it possible to generate
 whole-genome resequencing data for multiple individuals and
@@ -39,7 +32,7 @@ perform variant calling and variant filtering.
 
 Once a high-quality variant set has been obtained, a common task is to
 describe variation, either in terms of summary statistics such as
-nucleotide diversity ($\pi$) or site-frequency spectra (sfs), or as
+nucleotide diversity $\pi$ or site-frequency spectra, or as
 descriptions of population structure in terms of admixture or pca
 plots.
 
@@ -54,7 +47,7 @@ or by looking at haplotype structures to detect linked selection.
 
 (sec_exercises_about_baseline)=
 
-### The baseline model
+## The baseline model
 
 Much of what has been described in [The manuscript
 route](sec_exercises_about_manuscript_route) has recently been treated
@@ -83,7 +76,7 @@ to equal degrees.
 
 (sec_exercises_about_additional_material)=
 
-### Additional material
+## Additional material
 
 ```{admonition} FIXME
 :class: warning
@@ -110,5 +103,3 @@ and topics. Among the things we won't have time to cover are
 8. ancient DNA
 9. spatial genetics
 10. ...
-
-

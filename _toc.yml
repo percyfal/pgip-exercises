@@ -1,12 +1,39 @@
 format: jb-book
 root: intro
 parts:
-- caption: Describing variation
+#- caption: pgip exercises
+- chapters:
+  #- file: exercises_about
+  - file: schedule
+- caption: Preparation
   chapters:
-  - file: nucleotide_diversity
-- caption: f-statistics
+  - file: preparation
+  #   sections:
+  #   - file: uppmax
+  #   - file: command_line
+  # - file: theory_background
+  #   sections:
+  #   - file: popgen_theory_bac
+  #   - file: readings
+  # - caption: Practical information
+  #   chapters:
+  #   - file: schedule
+- caption: "Day 1: Variant calling"
   chapters:
+  - file: variantcalling
+- caption: "Day 2: Describing variation"
+  chapters:
+  - file: describing_variation
+- caption: "Day 3: Demographic inference"
+  chapters:
+  - file: demographic_inference
   - file: fstatistics
+- caption: "Day 4: Selection"
+  chapters:
+  - file: selection
 - caption: About
   chapters:
   - file: data
+- caption: Bibliography
+  chapters:
+  - file: references

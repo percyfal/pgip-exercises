@@ -25,6 +25,15 @@ jobs:
       with:
         python-version: 3.9
 
+    - name: install miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        mamba-version: "*"
+        channels: conda-forge,bioconda,default
+        channel-priority: true
+        environment-file: environment.yml
+        use-only-tar-bz2: true
+
     - name: Install python dependencies
       run: |
         pip install -r requirements.txt
@@ -51,8 +60,8 @@ jobs:
     - name: Copy files for users to run tutorials
       run: |
         cp ./requirements.txt ./_build/html/.
-        cp -r data ./_build/html/examples
-        ls data > ./_build/html/examples/files.txt
+        cp -r data ./_build/html/data
+        ls data > ./_build/html/data/files.txt
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
