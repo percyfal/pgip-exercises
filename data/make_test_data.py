@@ -478,7 +478,7 @@ def main():
     subparsers = parser.add_subparsers(dest="subcommand")
     subparsers.required = True
 
-    ooaparser = subparsers.add_parser("ooa", help="Make ooa dataset (neutral)")
+    ooaparser = subparsers.add_parser("ooa-outgroup", help="Make ooa dataset (neutral)")
     ooaparser.set_defaults(runner=make_ooa)
     ooaparser.add_argument(
         "--cpus", "-p", help="Set number of cpus", default=1, dest="cpus"

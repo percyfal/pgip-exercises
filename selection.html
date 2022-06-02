@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nucleotide diversity &#8212; Population genomics in practice</title>
+    <title>Selection &#8212; Population genomics in practice</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,12 +51,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="f-statistics" href="fstatistics.html" />
-    <link rel="prev" title="Welcome!" href="intro.html" />
+    <link rel="next" title="Data" href="data.html" />
+    <link rel="prev" title="f-statistics" href="fstatistics.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -91,31 +89,79 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Welcome!
+   Population Genomics in Practice exercises
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Schedule
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Describing variation
+  Preparation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preparation.html">
+   Preparation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 1: Variant calling
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="variantcalling.html">
+   Variant calling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 2: Describing variation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="describing_variation.html">
+   Describing variation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 3: Demographic inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="demographic_inference.html">
+   Demographic inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fstatistics.html">
+   f-statistics
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 4: Selection
  </span>
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Nucleotide diversity
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  f-statistics
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="fstatistics.html">
-   f-statistics
+   Selection
   </a>
  </li>
 </ul>
@@ -128,6 +174,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="data.html">
    Data
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliography
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   References
   </a>
  </li>
 </ul>
@@ -170,11 +228,11 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/nucleotide_diversity.ipynb"><button type="button"
+            href="_sources/selection.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/nucleotide_diversity.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/selection.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -184,6 +242,22 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 
             <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/percyfal/pgip-exercises"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/percyfal/pgip-exercises/issues/new?title=Issue%20on%20page%20%2Fselection.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
 
             <!-- Full screen (wrap in <a> to have style consistency -->
 
@@ -199,19 +273,6 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -219,87 +280,19 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Nucleotide diversity</h1>
+                <h1>Selection</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="nucleotide-diversity">
-<span id="sec-nucleotide-diversity"></span><h1>Nucleotide diversity<a class="headerlink" href="#nucleotide-diversity" title="Permalink to this headline">¶</a></h1>
-<p>The nucleotide diversity is defined as the average number of pairwise
-differences per site for a number of sequences
-<span id="id1">[<a class="reference internal" href="#id3" title="Masatoshi Nei and Sudhir Kumar. Molecular Evolution and Phylogenetics. Oxford University Press, Oxford, New York, August 2000. ISBN 978-0-19-513585-5.">Nei and Kumar, 2000</a>]</span>, p. 251:</p>
-<div class="math notranslate nohighlight">
-\[
- \pi = \sum_{ij} x_i x_j \pi_{ij}
-\]</div>
-<p>Here <span class="math notranslate nohighlight">\(x_i\)</span> is the population frequency of sequence <span class="math notranslate nohighlight">\(i\)</span>. It is unclear
-whether it means the number of occurrences or the fraction of sequence
-<span class="math notranslate nohighlight">\(i\)</span> in a population of <span class="math notranslate nohighlight">\(n\)</span> samples.</p>
-<p>Since <span class="math notranslate nohighlight">\(\pi_{ii} = 0\)</span> and <span class="math notranslate nohighlight">\(\pi_{ij} = \pi_{ji}\)</span>, the equation can be
-rewritten as</p>
-<div class="math notranslate nohighlight">
-\[
- \pi = \sum_{ij} x_i x_j \pi_{ij} = \sum_{i&lt;j} x_i x_j \pi_{ij} + \sum_{j&lt;i} x_j x_i \pi_{ji} + \sum_{i} x_i x_i \pi_{ii} = 2\sum_{ij} x_i x_j \pi_{ij}
-\]</div>
-<p>The (second) summation has <span class="math notranslate nohighlight">\(n(n-1)/2\)</span> terms.</p>
-<p>The nucleotide diversity can also be expressed as a function of the
-allele frequency spectrum (afs) <span class="math notranslate nohighlight">\(p = (p_1,p_2,...,p_q)\)</span>, where
-<span class="math notranslate nohighlight">\(p_i\)</span> is the frequency of sites with <span class="math notranslate nohighlight">\(i\)</span> minor alleles, and <span class="math notranslate nohighlight">\(q\)</span> is the
-number of possible non-monomorphic allele configurations. For diploid
-organisms, <span class="math notranslate nohighlight">\(q = 2k - 1\)</span>. <span class="math notranslate nohighlight">\(p\)</span> is the <em>unfolded</em> afs. There is a
-<em>folded</em> version <span class="math notranslate nohighlight">\(p^* = (p^*_1, p^*_2, p^*_{\lceil(q+1)/2\rceil})\)</span>,
-where <span class="math notranslate nohighlight">\(p^*_i = p_i + p_{q-i}\)</span> for <span class="math notranslate nohighlight">\(i \neq \lceil(q+1)/2\rceil\)</span> and
-<span class="math notranslate nohighlight">\(p^*_i = p_i\)</span> otherwise.</p>
-<p>Now, for a given site <span class="math notranslate nohighlight">\(s\)</span> with <span class="math notranslate nohighlight">\(i\)</span> minor alleles, there are <span class="math notranslate nohighlight">\(i(q-i)\)</span>
-different combinations where <span class="math notranslate nohighlight">\(\pi_{ij} \neq 0\)</span>. Moreover, <span class="math notranslate nohighlight">\(x_i = x_j =
- 1\)</span>, such that</p>
-<div class="math notranslate nohighlight">
-\[
- \pi_s = \sum_{i&lt;j} x_i x_j \pi_{ij} = i(q - i)
-\]</div>
-<p>Generalizing to <span class="math notranslate nohighlight">\(S = \sum_{i=1}^{q} p_i\)</span> sites, there are <span class="math notranslate nohighlight">\(p_i\)</span> sites
-with allele configuration <span class="math notranslate nohighlight">\(i, (q-i)\)</span>, such that</p>
-<div class="math notranslate nohighlight">
-\[
- \pi = \sum_{i=1}^{q} p_i i (q-i)
-\]</div>
-<p>Normalizing by the number of terms for each site, <span class="math notranslate nohighlight">\(n(n-1)/2\)</span> gives the
-average pairwise nucleotide diversity per site.</p>
-<p>Letting <span class="math notranslate nohighlight">\(k = \lceil(q+1)/2\rceil\)</span>, we can further rewrite <span class="math notranslate nohighlight">\(\pi\)</span> as</p>
-<div class="math notranslate nohighlight">
-\[
- \pi = \sum_{i=1}^{q} p_i i (q-i) = p_k k (q-k) +  \sum_{i=1}^{k - 1} p_i i (q-i) + p_{q-i} (q-i) i = \sum_{i=1}^{k} p^*_i i (k - i)
-\]</div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<div class="docutils container" id="id2">
-<dl class="citation">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Masatoshi Nei and Sudhir Kumar. <em>Molecular Evolution and Phylogenetics</em>. Oxford University Press, Oxford, New York, August 2000. ISBN 978-0-19-513585-5.</p>
-</dd>
-</dl>
-</div>
-</div>
+  <div class="tex2jax_ignore mathjax_ignore section" id="selection">
+<span id="sec-selection"></span><h1>Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -311,33 +304,33 @@ average pairwise nucleotide diversity per site.</p>
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "bash"
+            mode: "pgip"
         },
         kernelOptions: {
-            kernelName: "bash",
+            kernelName: "pgip",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'bash'</script>
+    <script>kernelName = 'pgip'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="fstatistics.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome!</p>
+            <p class="prev-next-title">f-statistics</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="fstatistics.html" title="next page">
+    <a class='right-next' id="next-link" href="data.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">f-statistics</p>
+        <p class="prev-next-title">Data</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

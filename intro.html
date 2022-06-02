@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome! &#8212; Population genomics in practice</title>
+    <title>Population Genomics in Practice exercises &#8212; Population genomics in practice</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Nucleotide diversity" href="nucleotide_diversity.html" />
+    <link rel="next" title="Schedule" href="schedule.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -90,31 +90,79 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
  <li class="toctree-l1 current">
   <a class="reference internal" href="#">
-   Welcome!
+   Population Genomics in Practice exercises
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Schedule
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Describing variation
+  Preparation
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="nucleotide_diversity.html">
-   Nucleotide diversity
+  <a class="reference internal" href="preparation.html">
+   Preparation
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  f-statistics
+  Day 1: Variant calling
  </span>
 </p>
 <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="variantcalling.html">
+   Variant calling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 2: Describing variation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="describing_variation.html">
+   Describing variation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 3: Demographic inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="demographic_inference.html">
+   Demographic inference
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="fstatistics.html">
    f-statistics
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 4: Selection
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="selection.html">
+   Selection
   </a>
  </li>
 </ul>
@@ -127,6 +175,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="data.html">
    Data
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliography
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   References
   </a>
  </li>
 </ul>
@@ -184,6 +244,22 @@ const thebe_selector_output = ".output, .cell_output"
 
             <!-- Source interaction buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/percyfal/pgip-exercises"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/percyfal/pgip-exercises/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -198,6 +274,36 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-exercises">
+   About the exercises
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-manuscript-route">
+     The manuscript route
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-baseline-model">
+     The baseline model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-material">
+     Additional material
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -205,53 +311,140 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Welcome!</h1>
+                <h1>Population Genomics in Practice exercises</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-exercises">
+   About the exercises
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-manuscript-route">
+     The manuscript route
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-baseline-model">
+     The baseline model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-material">
+     Additional material
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="welcome">
-<span id="sec-intro"></span><h1>Welcome!<a class="headerlink" href="#welcome" title="Permalink to this headline">¶</a></h1>
-<p>This site contains a number of tutorials to develop your understanding of
-<a class="reference external" href="https://tskit.dev/learn.html#what">succinct tree sequences</a> and software programs,
-such as <a class="reference external" href="https://tskit.dev/msprime">msprime</a>, that use them.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tskit</span>
-<span class="kn">import</span> <span class="nn">msprime</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span><span class="o">+</span><span class="mi">3</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</pre></div>
+  <div class="tex2jax_ignore mathjax_ignore section" id="population-genomics-in-practice-exercises">
+<span id="sec-intro"></span><h1>Population Genomics in Practice exercises<a class="headerlink" href="#population-genomics-in-practice-exercises" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the Population Genomics in Practice exercises homepage!</p>
+<div class="section" id="about-the-exercises">
+<span id="sec-exercises-about"></span><h2>About the exercises<a class="headerlink" href="#about-the-exercises" title="Permalink to this headline">¶</a></h2>
+<p>As the focus of the course is on hands-on work, the topics have been
+designed to cover the fundamental analyses that are common in many
+population genomics studies.</p>
+<div class="section" id="the-manuscript-route">
+<span id="sec-exercises-about-manuscript-route"></span><h3>The manuscript route<a class="headerlink" href="#the-manuscript-route" title="Permalink to this headline">¶</a></h3>
+<p>In principle, you could imagine the course structure to follow that of
+a manuscript (e.g <span id="id1">[<a class="reference internal" href="references.html#id5" title="Zachary L. Fuller, Veronique J. L. Mocellin, Luke A. Morris, Neal Cantin, Jihanne Shepherd, Luke Sarre, Julie Peng, Yi Liao, Joseph Pickrell, Peter Andolfatto, Mikhail Matz, Line K. Bay, and Molly Przeworski. Population genetics of the coral Acropora millepora: Toward genomic prediction of bleaching. Science, 369(6501):eaba4674, July 2020. doi:10.1126/science.aba4674.">Fuller <em>et al.</em>, 2020</a>]</span>).</p>
+<p>High-throughput DNA sequencing has now made it possible to generate
+whole-genome resequencing data for multiple individuals and
+populations, and a first step is to map sequence data to a reference,
+perform variant calling and variant filtering.</p>
+<p>Once a high-quality variant set has been obtained, a common task is to
+describe variation, either in terms of summary statistics such as
+nucleotide diversity (<span class="math notranslate nohighlight">\(\pi\)</span>) or site-frequency spectra (sfs), or as
+descriptions of population structure in terms of admixture or pca
+plots.</p>
+<p>Genetic diversity is also affected by population history and
+demographic processes such as population expansion, bottlenecks,
+migration events and hybridizations.</p>
+<p>Finally, it is often of interest to identify adaptive traits, to which
+end selection tests and scans can be performed. The tests are designed
+to detect signals of selection, either via direct selection on loci,
+or by looking at haplotype structures to detect linked selection.</p>
+</div>
+<div class="section" id="the-baseline-model">
+<span id="sec-exercises-about-baseline"></span><h3>The baseline model<a class="headerlink" href="#the-baseline-model" title="Permalink to this headline">¶</a></h3>
+<p>Much of what has been described in <a class="reference internal" href="#sec-exercises-about-manuscript-route"><span class="std std-ref">The manuscript
+route</span></a> has recently been treated
+in an article on statistical inference in population genomics
+<span id="id2">[<a class="reference internal" href="references.html#id4" title="Parul Johri, Charles F. Aquadro, Mark Beaumont, Brian Charlesworth, Laurent Excoffier, Adam Eyre-Walker, Peter D. Keightley, Michael Lynch, Gil McVean, Bret A. Payseur, Susanne P. Pfeifer, Wolfgang Stephan, and Jeffrey D. Jensen. Statistical inference in population genomics. November 2021. doi:10.1101/2021.10.27.466171.">Johri <em>et al.</em>, 2021</a>]</span>. In it, the authors
+point out that whereas historically theoretical advances outpaced data
+production, that is no longer true due to the advent of
+next-generation sequencing. In particular, they caution researchers to
+attach too much faith to a test that explains the data well, as there
+are many alternative hypotheses with equal explanatory power, but with
+drastically different conclusions. At the very least, a population
+genomics study should aim at first generating a baseline model
+consisting of all or several of the following components:</p>
+<ol class="simple">
+<li><p>mutation</p></li>
+<li><p>recombination</p></li>
+<li><p>reassortment</p></li>
+<li><p>gene conversion</p></li>
+<li><p>purifying selection acting on functional regions and its effects on
+linked variants (background selection)</p></li>
+<li><p>genetic drift with demographic history and geographic structure</p></li>
+</ol>
+<p>The exercises are designed to address many of the points above, and to
+highlight cases where competing hypotheses may actually explain data
+to equal degrees.</p>
+</div>
+<div class="section" id="additional-material">
+<span id="sec-exercises-about-additional-material"></span><h3>Additional material<a class="headerlink" href="#additional-material" title="Permalink to this headline">¶</a></h3>
+<div class="warning admonition">
+<p class="admonition-title">FIXME</p>
+<p>Rewrite/restructure and add more additional topics</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>NB: with time we could use repo to collect all kinds of exercises
+(even those that don’t fit current curriculum), providing the
+possibility to create optional course plans</p>
+</div>
+<p>A five day course cannot but provide an overview of possible analyses
+and topics. Among the things we won’t have time to cover are</p>
+<ol class="simple">
+<li><p>machine learning and AI for population genomics</p></li>
+<li><p>recombination landscape estimation</p></li>
+<li><p>gene conversion</p></li>
+<li><p>experimental design</p></li>
+<li><p>coalescent and Wright-Fisher simulations</p></li>
+<li><p>ABC methods</p></li>
+<li><p>ancestral recombination graphs and tree sequence inference</p></li>
+<li><p>ancient DNA</p></li>
+<li><p>spatial genetics</p></li>
+<li><p>…</p></li>
+</ol>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
-</pre></div>
+<div class="toctree-wrapper compound">
 </div>
+<div class="toctree-wrapper compound">
 </div>
+<div class="toctree-wrapper compound">
 </div>
-<div class="math notranslate nohighlight">
-\[\pi = \sum_{ij} x_i x_j \pi_{ij}\]</div>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-</pre></div>
+<div class="toctree-wrapper compound">
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/pgip_exercises/pgip_exercises
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-input docutils container">
+<div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -286,10 +479,10 @@ such as <a class="reference external" href="https://tskit.dev/msprime">msprime</
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="nucleotide_diversity.html" title="next page">
+    <a class='right-next' id="next-link" href="schedule.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Nucleotide diversity</p>
+        <p class="prev-next-title">Schedule</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

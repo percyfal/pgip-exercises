@@ -53,8 +53,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data" href="data.html" />
-    <link rel="prev" title="Nucleotide diversity" href="nucleotide_diversity.html" />
+    <link rel="next" title="Selection" href="selection.html" />
+    <link rel="prev" title="Demographic inference" href="demographic_inference.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -89,31 +89,79 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Welcome!
+   Population Genomics in Practice exercises
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Schedule
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Describing variation
+  Preparation
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="nucleotide_diversity.html">
-   Nucleotide diversity
+  <a class="reference internal" href="preparation.html">
+   Preparation
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  f-statistics
+  Day 1: Variant calling
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="variantcalling.html">
+   Variant calling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 2: Describing variation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="describing_variation.html">
+   Describing variation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 3: Demographic inference
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="demographic_inference.html">
+   Demographic inference
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    f-statistics
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 4: Selection
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="selection.html">
+   Selection
   </a>
  </li>
 </ul>
@@ -126,6 +174,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="data.html">
    Data
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliography
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   References
   </a>
  </li>
 </ul>
@@ -182,6 +242,22 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 
             <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/percyfal/pgip-exercises"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/percyfal/pgip-exercises/issues/new?title=Issue%20on%20page%20%2Ffstatistics.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
 
             <!-- Full screen (wrap in <a> to have style consistency -->
 
@@ -257,15 +333,15 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="tex2jax_ignore mathjax_ignore section" id="exercises">
 <h1>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h1>
 <div class="tabbed-set docutils">
-<input checked="checked" id="d7028291-8b9e-4216-aaf5-71e5cb09a0c9" name="d60d7670-23dd-4a78-9c2e-fa13eb0e99d7" type="radio">
-</input><label class="tabbed-label" for="d7028291-8b9e-4216-aaf5-71e5cb09a0c9">
+<input checked="checked" id="78e0cf4d-0f17-41df-8e00-83273dd49c52" name="0408318c-f59e-4239-9344-7c0bef0235b4" type="radio">
+</input><label class="tabbed-label" for="78e0cf4d-0f17-41df-8e00-83273dd49c52">
 Dsuite</label><div class="tabbed-content docutils">
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">pwd</span>
 </pre></div>
 </div>
 </div>
-<input id="20fe13f2-7b91-4725-a692-9397497c794f" name="d60d7670-23dd-4a78-9c2e-fa13eb0e99d7" type="radio">
-</input><label class="tabbed-label" for="20fe13f2-7b91-4725-a692-9397497c794f">
+<input id="b6011080-7265-45a2-8e57-4f0cb390b79e" name="0408318c-f59e-4239-9344-7c0bef0235b4" type="radio">
+</input><label class="tabbed-label" for="b6011080-7265-45a2-8e57-4f0cb390b79e">
 sgkit</label><div class="tabbed-content docutils">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sgkit</span>
 </pre></div>
@@ -277,7 +353,7 @@ sgkit</label><div class="tabbed-content docutils">
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/pgip_exercises/pgip_exercises
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/pgip-exercises/pgip-exercises
 </pre></div>
 </div>
 </div>
@@ -313,17 +389,17 @@ Peters</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="nucleotide_diversity.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="demographic_inference.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Nucleotide diversity</p>
+            <p class="prev-next-title">Demographic inference</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="data.html" title="next page">
+    <a class='right-next' id="next-link" href="selection.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data</p>
+        <p class="prev-next-title">Selection</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

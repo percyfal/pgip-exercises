@@ -53,7 +53,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="f-statistics" href="fstatistics.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Selection" href="selection.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -88,31 +89,79 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Welcome!
+   Population Genomics in Practice exercises
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="schedule.html">
+   Schedule
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Describing variation
+  Preparation
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="nucleotide_diversity.html">
-   Nucleotide diversity
+  <a class="reference internal" href="preparation.html">
+   Preparation
   </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  f-statistics
+  Day 1: Variant calling
  </span>
 </p>
 <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="variantcalling.html">
+   Variant calling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 2: Describing variation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="describing_variation.html">
+   Describing variation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 3: Demographic inference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="demographic_inference.html">
+   Demographic inference
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="fstatistics.html">
    f-statistics
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Day 4: Selection
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="selection.html">
+   Selection
   </a>
  </li>
 </ul>
@@ -125,6 +174,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Data
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Bibliography
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   References
   </a>
  </li>
 </ul>
@@ -182,6 +243,22 @@ const thebe_selector_output = ".output, .cell_output"
 
             <!-- Source interaction buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/percyfal/pgip-exercises"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/percyfal/pgip-exercises/issues/new?title=Issue%20on%20page%20%2Fdata.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -196,6 +273,31 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulated-data">
+   Simulated data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-africa-ooa">
+     Out of Africa (ooa)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-africa-with-outgroups-ooa-outgroups">
+     Out of Africa with outgroups (ooa-outgroups)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -208,6 +310,31 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulated-data">
+   Simulated data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-africa-ooa">
+     Out of Africa (ooa)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#out-of-africa-with-outgroups-ooa-outgroups">
+     Out of Africa with outgroups (ooa-outgroups)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -216,6 +343,68 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="data">
 <span id="sec-data"></span><h1>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">FIXME</p>
+<ul class="simple">
+<li><p>Describe data sets used in course</p></li>
+<li><p>Should make_test_data.py also generate experimental data through downloads?</p></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Datasets are presumably of three types:</p>
+<ol class="simple">
+<li><p>simulated data</p></li>
+<li><p>experimental data</p></li>
+<li><p>precomputed results</p></li>
+</ol>
+<p>Datasets 1 and 2 will be used for analyses. Datasets of type 3 are
+results that take a long time to compute (e.g. on a HPC) and will be
+needed to enable compilation of jupyter book examples</p>
+</div>
+<p>Data sets reside in the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory. Simulated data sets have
+been generated with the script <code class="docutils literal notranslate"><span class="pre">data/make_test_data.py</span></code>.</p>
+<div class="section" id="simulated-data">
+<span id="sec-data-simulated"></span><h2>Simulated data<a class="headerlink" href="#simulated-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="out-of-africa-ooa">
+<span id="sec-data-simulated-ooa"></span><h3>Out of Africa (ooa)<a class="headerlink" href="#out-of-africa-ooa" title="Permalink to this headline">¶</a></h3>
+<div class="warning admonition">
+<p class="admonition-title">FIXME</p>
+<p>Simulate and add out of Africa dataset without outgroups. Can be simulated with stdpopsim.</p>
+</div>
+<p>The out of Africa dataset is based on the
+<span id="id1">[<a class="reference internal" href="references.html#id3" title="Ryan N. Gutenkunst, Ryan D. Hernandez, Scott H. Williamson, and Carlos D. Bustamante. Inferring the joint demographic history of multiple populations from multidimensional SNP frequency data. PLoS genetics, 5(10):e1000695, October 2009. doi:10.1371/journal.pgen.1000695.">Gutenkunst <em>et al.</em>, 2009</a>]</span> demographic model
+(see also <a class="reference external" href="https://tskit.dev/msprime/docs/stable/demography.html#population-tree">msprime out of Africa
+example</a>
+and <a class="reference external" href="https://popsim-consortium.github.io/stdpopsim-docs/stable/catalog.html#sec_catalog_homsap_models_outofafrica_3g09">the stdpopsim out of Africa model
+specification</a>)</p>
+</div>
+<div class="section" id="out-of-africa-with-outgroups-ooa-outgroups">
+<h3>Out of Africa with outgroups (ooa-outgroups)<a class="headerlink" href="#out-of-africa-with-outgroups-ooa-outgroups" title="Permalink to this headline">¶</a></h3>
+<p>The out of Africa with outgroups is an extension of the
+In addition to simulating human data, the model has been expanded to
+include three outgroups chimpanzee, gorilla and orangutan (Figure
+<a class="reference internal" href="#fig-ooa-demesdraw"><span class="std std-numref">Fig. 1</span></a>).</p>
+<div class="cell tag_remove-output tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">demes</span>
+<span class="kn">import</span> <span class="nn">demesdraw</span>
+<span class="n">ooa</span> <span class="o">=</span> <span class="n">demes</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data/ooa-outgroups/ooa_with_outgroups.demes.yaml&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">demesdraw</span><span class="o">.</span><span class="n">tubes</span><span class="p">(</span><span class="n">ooa</span><span class="p">,</span> <span class="n">num_lines_per_migration</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">log_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;fig-ooa-demesdraw&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="figure align-default" id="fig-ooa-demesdraw">
+<div class="cell_output docutils container">
+<img alt="_images/data_1_0.png" src="_images/data_1_0.png" />
+</div>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text"><a class="reference external" href="https://grahamgower.github.io/demesdraw/latest/quickstart.html">demesdraw</a> illustration of out of Africa model.</span><a class="headerlink" href="#fig-ooa-demesdraw" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -243,12 +432,19 @@ const thebe_selector_output = ".output, .cell_output"
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="fstatistics.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="selection.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">f-statistics</p>
+            <p class="prev-next-title">Selection</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="references.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             
