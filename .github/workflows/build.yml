@@ -39,16 +39,18 @@ jobs:
         activate-environment: ""
         auto-activate-base: true
         mamba-version: "*"
-        channels: conda-forge,bioconda,default
+        channels: conda-forge,bioconda,defaults
         channel-priority: true
         environment-file: environment.yaml
         use-only-tar-bz2: true
 
     - name: Install python dependencies
+      shell: bash -l {0}
       run: |
         pip install -r requirements.txt
 
     - name: Install R support
+      shell: bash -l {0}
       run: |
         # We need to remove R to pull in a version that's compatible with CRAN, weirdly.
         sudo apt-get remove r-base-core
@@ -57,6 +59,7 @@ jobs:
         R -e 'IRkernel::installspec()'
 
     - name: Add pgip and bash jupyter kernel
+      shell: bash -l {0}
       run: |
         pip install ipykernel
         pip install bash_kernel
@@ -65,9 +68,11 @@ jobs:
 
     # Build the book
     - name: Build the book
+      shell: bash -l {0}
       run: ./build.sh
 
-    - name: Copy files for users to run tutorials
+    - name: Copy exercises data
+      shell: bash -l {0}
       run: |
         cp ./requirements.txt ./_build/html/.
         cp -r data ./_build/html/data
