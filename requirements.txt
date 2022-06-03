@@ -10,4 +10,4 @@ numpy
 networkx
 tskit>=0.4
 msprime>=1.0
-bokeh
+cyvcf2

@@ -36,6 +36,7 @@ jobs:
       with:
         #activate-environment: ""
         #auto-activate-base: true
+        python-version: 3.9
         mamba-version: "*"
         channels: conda-forge,bioconda,defaults
         channel-priority: true

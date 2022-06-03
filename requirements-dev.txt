@@ -1,0 +1,3 @@
+joblib
+insilicoseq
+biopython=1.78

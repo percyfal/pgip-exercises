@@ -4,7 +4,20 @@ channels:
   - defaults
 dependencies:
   - bcftools
+  - bokeh
+  - demes
+  - demesdraw
   - gatk4
+  - jupyter-book
+  - matplotlib
+  - msprime>=1.0
+  - networkx
+  - numpy
   - pip
   - plink
-  - python>=3.9
+  - r-irkernel
+  - r-reticulate
+  - scikit-allel
+  - sphinx
+  - tskit>=0.4
+  - tqdm
