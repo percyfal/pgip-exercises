@@ -34,8 +34,6 @@ jobs:
     - name: install miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        #activate-environment: ""
-        #auto-activate-base: true
         python-version: 3.9
         mamba-version: "*"
         channels: conda-forge,bioconda,defaults
@@ -47,18 +45,8 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Install R support
+    - name: Install pgip and bash jupyter kernels
       run: |
-        # We need to remove R to pull in a version that's compatible with CRAN, weirdly.
-        sudo apt-get remove r-base-core
-        sudo apt-get install r-cran-reticulate r-cran-pbdzmq r-cran-uuid
-        sudo R -e 'install.packages("IRkernel")'
-        R -e 'IRkernel::installspec()'
-
-    - name: Add pgip and bash jupyter kernel
-      run: |
-        pip install ipykernel
-        pip install bash_kernel
         python -m bash_kernel.install
         python -m ipykernel install --user --name pgip --display-name "Population Genomics in Practice (Python)"
 
