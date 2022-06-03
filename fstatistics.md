@@ -6,10 +6,17 @@ jupytext:
     format_version: 0.12
     jupytext_version: 1.9.1
 kernelspec:
-  display_name: Python 3
-  language: python
-  name: pgip
+  display_name: Bash
+  language: bash
+  name: bash
 ---
+
+
+```{code-cell} bash
+:"tags": ["remove-output"]
+bind 'set enable-bracketed-paste off'
+```
+
 
 (sec_fstatistics)=
 
@@ -27,15 +34,8 @@ pwd
 import sgkit
 ```
 
-
-```{code-block} shell
+```{code-cell} bash
 pwd
-```
-
-```{code-cell} ipython3
-:"tags": ["remove-input"]
-import subprocess as sp
-_ = sp.check_call(["pwd"])
 ```
 
 

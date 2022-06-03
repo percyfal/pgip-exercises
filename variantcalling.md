@@ -42,19 +42,6 @@ bcftools | head -2
 gatk HaplotypeCaller
 ```
 
-
-
-```{code-cell} ipython3
-:"tags": ["remove-input", "hide-output"]
-import subprocess
-subprocess.run("bcftools | head -2", shell=True, check=False)
-```
-
-```{code-cell} ipython3
-:"tags": ["remove-input", "hide-output"]
-subprocess.run("gatk HaplotypeCaller", shell=True, check=False)
-```
-
 Optional: run bcftools / HaplotypeCaller / freebayes on data set or at
 least show commands how files were generated
 
