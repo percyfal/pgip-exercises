@@ -36,8 +36,8 @@ jobs:
     - name: install miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        activate-environment: ""
-        auto-activate-base: true
+        # activate-environment: ""
+        # auto-activate-base: true
         mamba-version: "*"
         channels: conda-forge,bioconda,defaults
         channel-priority: true
