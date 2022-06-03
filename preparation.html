@@ -102,7 +102,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Preparation
+  Day 0: Preparation
  </span>
 </p>
 <ul class="current nav bd-sidenav">
@@ -123,6 +123,16 @@ const thebe_selector_output = ".output, .cell_output"
    Variant calling
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="variantfiltering.html">
+   Variantfiltering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="genotype_likelihoods.html">
+   Genotype likelihoods and low-coverage data
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -133,6 +143,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="describing_variation.html">
    Describing variation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ld_pruning_pca.html">
+   Ld pruning and principal component analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="admixture.html">
+   Admixture
   </a>
  </li>
 </ul>
@@ -273,6 +293,39 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-environment">
+   Compute environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#command-line">
+   Command line
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#uppmax">
+   UPPMAX
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#population-genetics-basics">
+   Population genetics basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#suggested-readings">
+   Suggested readings
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -285,17 +338,76 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-environment">
+   Compute environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#command-line">
+   Command line
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#uppmax">
+   UPPMAX
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#population-genetics-basics">
+   Population genetics basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#suggested-readings">
+   Suggested readings
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="preparation">
+  <div class="warning admonition">
+<p class="admonition-title">FIXME</p>
+<p>Student preparatory information, including:</p>
+<ul class="simple">
+<li><p>howto setup compute environment</p></li>
+<li><p>howto work on uppmax</p></li>
+<li><p>suggested reading</p></li>
+</ul>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="preparation">
 <span id="sec-preparation"></span><h1>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>testing note</p>
+<div class="section" id="compute-environment">
+<span id="sec-preparation-compute-environment"></span><h2>Compute environment<a class="headerlink" href="#compute-environment" title="Permalink to this headline">¶</a></h2>
+<p>Add instructions on packages to install, or provide a docker image.</p>
+</div>
+<div class="section" id="command-line">
+<span id="sec-preparation-command-line"></span><h2>Command line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h2>
+<p>Add basics of working in a CLI.</p>
+</div>
+<div class="section" id="uppmax">
+<span id="sec-preparation-uppmax"></span><h2>UPPMAX<a class="headerlink" href="#uppmax" title="Permalink to this headline">¶</a></h2>
+<p>Add instructions on how to work on uppmax. Prerecorded video would be nice.</p>
+</div>
+<div class="section" id="population-genetics-basics">
+<span id="sec-preparation-population-genetics-basics"></span><h2>Population genetics basics<a class="headerlink" href="#population-genetics-basics" title="Permalink to this headline">¶</a></h2>
+<p>Add short summary of basic concepts? Glossary-like?</p>
+</div>
+<div class="section" id="suggested-readings">
+<span id="sec-preparation-suggested-readings"></span><h2>Suggested readings<a class="headerlink" href="#suggested-readings" title="Permalink to this headline">¶</a></h2>
+<p><span id="id1">[<a class="reference internal" href="references.html#id4" title="Parul Johri, Charles F. Aquadro, Mark Beaumont, Brian Charlesworth, Laurent Excoffier, Adam Eyre-Walker, Peter D. Keightley, Michael Lynch, Gil McVean, Bret A. Payseur, Susanne P. Pfeifer, Wolfgang Stephan, and Jeffrey D. Jensen. Statistical inference in population genomics. November 2021. doi:10.1101/2021.10.27.466171.">Johri <em>et al.</em>, 2021</a>]</span> on Statistical
+Inference in Population Genetics.</p>
 </div>
 </div>
 
