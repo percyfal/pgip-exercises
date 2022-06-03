@@ -6,4 +6,5 @@ dependencies:
   - bcftools
   - gatk4
   - pip
+  - plink
   - python>=3.9
