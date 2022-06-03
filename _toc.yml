@@ -5,7 +5,7 @@ parts:
 - chapters:
   #- file: exercises_about
   - file: schedule
-- caption: Preparation
+- caption: "Day 0: Preparation"
   chapters:
   - file: preparation
   #   sections:
@@ -21,9 +21,13 @@ parts:
 - caption: "Day 1: Variant calling"
   chapters:
   - file: variantcalling
+  - file: variantfiltering
+  - file: genotype_likelihoods
 - caption: "Day 2: Describing variation"
   chapters:
   - file: describing_variation
+  - file: ld_pruning_pca
+  - file: admixture
 - caption: "Day 3: Demographic inference"
   chapters:
   - file: demographic_inference

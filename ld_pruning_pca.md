@@ -11,11 +11,7 @@ kernelspec:
   name: pgip
 ---
 
-(sec_admixture)=
+(sec_ld_pruning_pca)=
 
-# Admixture
+# Ld pruning and principal component analysis
 
-- admixtools (convert vcf via vcftools to ped)
-- run admixture (STRUCTURE?)
-
-Follow tutorial {cite}`liu_ExploringPopulationStructure_2020`

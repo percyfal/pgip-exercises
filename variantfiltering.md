@@ -11,11 +11,7 @@ kernelspec:
   name: pgip
 ---
 
-(sec_admixture)=
+(sec_variantfiltering)=
 
-# Admixture
+# Variantfiltering
 
-- admixtools (convert vcf via vcftools to ped)
-- run admixture (STRUCTURE?)
-
-Follow tutorial {cite}`liu_ExploringPopulationStructure_2020`
